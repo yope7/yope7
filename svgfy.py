@@ -1,6 +1,5 @@
 import requests
 from datetime import datetime, timedelta
-import json
 import random
 import calendar
 import os
