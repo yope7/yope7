@@ -9,8 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 USERNAME = "yope7"
-# GitHub Actionsのワークフロー環境変数かローカルの.env変数を使用
-TOKEN = os.getenv("GITHUB_TOKEN") or os.getenv("TOKEN")
+TOKEN = os.getenv("TOKEN")
 
 # 動物の種類と絵文字を定義
 ANIMALS = [
@@ -57,10 +56,7 @@ response = requests.post(
     json={"query": query, "variables": variables},
     headers=headers
 )
-print(TOKEN)
 data = response.json()
-#dump
-print(json.dumps(data, indent=2))
 
 # 日付→コミット数のマップを作成
 commit_days = {}
@@ -158,33 +154,51 @@ with open("./dist/github_contributions_labeled.svg", "w") as f:
       100% {{ fill: inherit; stroke-dasharray: none; }}
     }}
     
+    @keyframes fullAnimation {{
+      0% {{ opacity: 0; transform: translate(20px, 20px); }} /* 初期登場 */
+      8% {{ opacity: 1; transform: translate(0, 0); }} /* 表示完了 */
+      12% {{ opacity: 1; transform: translate(0, 0); }} /* 少し待機 */
+      16% {{ transform: translate(-5px, -5px); }} /* 動き始め */
+      20% {{ transform: translate(0, 0); }} /* 少し戻る */
+      28% {{ transform: translate(-10px, -10px); }} /* さらに動く */
+      36% {{ transform: translate(-50px, -30px); }} /* 大きく動く */
+      44% {{ transform: translate(-200px, -100px); opacity: 0; }} /* 消失 */
+      45% {{ transform: translate(20px, 20px); opacity: 0; }} /* リセット位置 */
+      60% {{ opacity: 0; transform: translate(20px, 20px); }} /* 待機 */
+      68% {{ opacity: 1; transform: translate(0, 0); }} /* 再登場 */
+      100% {{ opacity: 1; transform: translate(0, 0); }} /* ループ終了時点 */
+    }}
+    
+    @keyframes commitAnimation {{
+      0% {{ transform: translate(0, 0); }} /* 初期位置 */
+      12% {{ transform: translate(0, 0); }} /* 待機 */
+      28% {{ transform: translate(-8px, -8px); }} /* 動き始め */
+      36% {{ transform: translate(-48px, -28px); }} /* 大きく動く */
+      44% {{ transform: translate(-200px, -100px); }} /* 消失 */
+      45% {{ transform: translate(0, 0); }} /* リセット */
+      100% {{ transform: translate(0, 0); }} /* ループ終了時点 */
+    }}
+    
+    @keyframes holeAnimation {{
+      0% {{ fill: inherit; stroke-dasharray: none; }} /* 初期状態 */
+      12% {{ fill: inherit; stroke-dasharray: none; }} /* 待機 */
+      28% {{ fill: #ddd; stroke-dasharray: 2,2; }} /* 穴出現開始 */
+      44% {{ fill: white; stroke-dasharray: 2,2; }} /* 穴完全表示 */
+      60% {{ fill: #ddd; stroke-dasharray: 2,2; }} /* 穴消失開始 */
+      76% {{ fill: inherit; stroke-dasharray: none; }} /* 元に戻る */
+      100% {{ fill: inherit; stroke-dasharray: none; }} /* ループ終了時点 */
+    }}
+    
     .squirrel {{
-      animation: 
-        squirrelAppear 2s ease forwards,
-        moveSquirrel 5s ease 3s forwards,
-        squirrelReset 0.1s ease 8s forwards,
-        squirrelAppear 2s ease 15s infinite,
-        moveSquirrel 5s ease 18s infinite,
-        squirrelReset 0.1s ease 23s infinite;
-      animation-delay: 0s, 3s, 8s, 15s, 18s, 23s;
+      animation: fullAnimation 25s ease infinite;
     }}
     
     .stolen-commit {{
-      animation: 
-        commitMove 5s ease 3s forwards,
-        commitReset 0.1s ease 8s forwards,
-        commitMove 5s ease 18s infinite,
-        commitReset 0.1s ease 23s infinite;
-      animation-delay: 3s, 8s, 18s, 23s;
+      animation: commitAnimation 25s ease infinite;
     }}
     
     .commit-hole {{
-      animation: 
-        holeAppear 5s ease 3s forwards,
-        holeDisappear 4s ease 8s forwards,
-        holeAppear 5s ease 18s infinite,
-        holeDisappear 4s ease 23s infinite;
-      animation-delay: 3s, 8s, 18s, 23s;
+      animation: holeAnimation 25s ease infinite;
     }}
   </style>
 ''')
@@ -262,19 +276,18 @@ with open("./dist/github_contributions_labeled.svg", "w") as f:
         for i, (x, y, date_str, count) in enumerate(selected_positions):
             # アニメーションのタイミングをずらす（各リスに少し異なる開始時間）
             delay = i * 2  # 2秒ずつずらす
-            base_delay = delay
             
             # ランダムに動物を選択
             animal = random.choice(ANIMALS)
             
             # 元のコミットの位置に「穴」を作成
-            f.write(f'''  <rect x="{x}" y="{y}" width="{cell_size}" height="{cell_size}" fill="{get_color(count)}" stroke="#777" class="commit-hole" id="hole-{i}" style="animation-delay: {3+base_delay}s, {8+base_delay}s, {18+base_delay}s, {23+base_delay}s"/>\n''')
+            f.write(f'''  <rect x="{x}" y="{y}" width="{cell_size}" height="{cell_size}" fill="{get_color(count)}" stroke="#777" class="commit-hole" id="hole-{i}" style="animation-delay: {delay}s"/>\n''')
             
             # 盗まれて動くコミット
-            f.write(f'''  <rect x="{x}" y="{y}" width="{cell_size}" height="{cell_size}" fill="{get_color(count)}" stroke="#ccc" class="stolen-commit" id="commit-{i}" style="animation-delay: {3+base_delay}s, {8+base_delay}s, {18+base_delay}s, {23+base_delay}s"/>\n''')
+            f.write(f'''  <rect x="{x}" y="{y}" width="{cell_size}" height="{cell_size}" fill="{get_color(count)}" stroke="#ccc" class="stolen-commit" id="commit-{i}" style="animation-delay: {delay}s"/>\n''')
             
             # 動物を追加（ループアニメーション対応）
-            f.write(f'''  <g class="squirrel" id="animal-{i}" style="animation-delay: {0+base_delay}s, {3+base_delay}s, {8+base_delay}s, {15+base_delay}s, {18+base_delay}s, {23+base_delay}s">
+            f.write(f'''  <g class="squirrel" id="animal-{i}" style="animation-delay: {delay}s">
     <text x="{x + 5}" y="{y - 2}" font-size="16">{animal["emoji"]}</text>
   </g>\n''')
 
