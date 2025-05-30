@@ -57,7 +57,6 @@ response = requests.post(
     headers=headers
 )
 data = response.json()
-print(TOKEN)
 
 # 日付→コミット数のマップを作成
 commit_days = {}

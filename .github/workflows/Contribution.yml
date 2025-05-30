@@ -29,7 +29,7 @@ jobs:
       - name: Run script
         run: python svgfy.py
         env:
-          GITHUB_TOKEN: ${{ secrets.secrets }}
+          TOKEN: ${{ secrets.secrets }}
 
       - name: Deploy SVG to branch
         uses: peaceiris/actions-gh-pages@v4
