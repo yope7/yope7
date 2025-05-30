@@ -30,11 +30,3 @@ jobs:
         run: python svgfy.py
         env:
           TOKEN: ${{ secrets.secrets }}
-
-      - name: Deploy SVG to branch
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          publish_branch: gh-pages
-          force_orphan: true
