@@ -1,0 +1,504 @@
+<svg width="772" height="138" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .label { font-size: 10px; fill: #555; }
+    .month { font-size: 10px; fill: #555; }
+    .tooltip { visibility: hidden; font-size: 10px; background-color: rgba(0,0,0,0.8); color: white; padding: 3px; border-radius: 3px; position: absolute; }
+    rect:hover + .tooltip { visibility: visible; }
+    
+    @keyframes moveSquirrel {
+      0% { transform: translate(0, 0); opacity: 1; }
+      10% { transform: translate(-5px, -5px); }
+      20% { transform: translate(0, 0); }
+      40% { transform: translate(-10px, -10px); }
+      60% { transform: translate(-50px, -30px); }
+      100% { transform: translate(-200px, -100px); opacity: 0; }
+    }
+    
+    @keyframes squirrelAppear {
+      0% { opacity: 0; transform: translate(20px, 20px); }
+      100% { opacity: 1; transform: translate(0, 0); }
+    }
+    
+    @keyframes squirrelReset {
+      0% { transform: translate(-200px, -100px); opacity: 0; }
+      100% { transform: translate(20px, 20px); opacity: 0; }
+    }
+    
+    @keyframes commitMove {
+      0% { transform: translate(0, 0); }
+      10% { transform: translate(0, 0); }
+      40% { transform: translate(-8px, -8px); }
+      60% { transform: translate(-48px, -28px); }
+      100% { transform: translate(-200px, -100px); }
+    }
+    
+    @keyframes commitReset {
+      0% { transform: translate(-200px, -100px); }
+      100% { transform: translate(0, 0); }
+    }
+    
+    @keyframes holeAppear {
+      0% { fill: inherit; }
+      10% { fill: inherit; }
+      40% { fill: #ddd; stroke-dasharray: 2,2; }
+      100% { fill: white; stroke-dasharray: 2,2; }
+    }
+    
+    @keyframes holeDisappear {
+      0% { fill: white; stroke-dasharray: 2,2; }
+      60% { fill: #ddd; stroke-dasharray: 2,2; }
+      100% { fill: inherit; stroke-dasharray: none; }
+    }
+    
+    @keyframes fullAnimation {
+      0% { opacity: 0; transform: translate(20px, 20px); } /* 初期登場 */
+      8% { opacity: 1; transform: translate(0, 0); } /* 表示完了 */
+      12% { opacity: 1; transform: translate(0, 0); } /* 少し待機 */
+      16% { transform: translate(-5px, -5px); } /* 動き始め */
+      20% { transform: translate(0, 0); } /* 少し戻る */
+      28% { transform: translate(-10px, -10px); } /* さらに動く */
+      36% { transform: translate(-50px, -30px); } /* 大きく動く */
+      44% { transform: translate(-200px, -100px); opacity: 0; } /* 消失 */
+      45% { transform: translate(20px, 20px); opacity: 0; } /* リセット位置 */
+      60% { opacity: 0; transform: translate(20px, 20px); } /* 待機 */
+      68% { opacity: 1; transform: translate(0, 0); } /* 再登場 */
+      100% { opacity: 1; transform: translate(0, 0); } /* ループ終了時点 */
+    }
+    
+    @keyframes commitAnimation {
+      0% { transform: translate(0, 0); } /* 初期位置 */
+      12% { transform: translate(0, 0); } /* 待機 */
+      28% { transform: translate(-8px, -8px); } /* 動き始め */
+      36% { transform: translate(-48px, -28px); } /* 大きく動く */
+      44% { transform: translate(-200px, -100px); } /* 消失 */
+      45% { transform: translate(0, 0); } /* リセット */
+      100% { transform: translate(0, 0); } /* ループ終了時点 */
+    }
+    
+    @keyframes holeAnimation {
+      0% { fill: inherit; stroke-dasharray: none; } /* 初期状態 */
+      12% { fill: inherit; stroke-dasharray: none; } /* 待機 */
+      28% { fill: #ddd; stroke-dasharray: 2,2; } /* 穴出現開始 */
+      44% { fill: white; stroke-dasharray: 2,2; } /* 穴完全表示 */
+      60% { fill: #ddd; stroke-dasharray: 2,2; } /* 穴消失開始 */
+      76% { fill: inherit; stroke-dasharray: none; } /* 元に戻る */
+      100% { fill: inherit; stroke-dasharray: none; } /* ループ終了時点 */
+    }
+    
+    .squirrel {
+      animation: fullAnimation 25s ease infinite;
+    }
+    
+    .stolen-commit {
+      animation: commitAnimation 25s ease infinite;
+    }
+    
+    .commit-hole {
+      animation: holeAnimation 25s ease infinite;
+    }
+  </style>
+  <text x="0" y="40" class="label">Mon</text>
+  <text x="0" y="68" class="label">Wed</text>
+  <text x="0" y="96" class="label">Fri</text>
+  <rect x="30" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="30" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="30" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="30" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="30" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="30" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="30" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <text x="30" y="10" class="month">Jun</text>
+  <rect x="44" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="44" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="44" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="44" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="44" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="44" y="90" width="12" height="12" fill="#7bc96f" stroke="#ccc"/>
+  <rect x="44" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="58" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="58" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="58" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="58" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="58" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="58" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="58" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="72" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="72" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="72" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="72" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="72" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="72" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="72" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="86" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="86" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="86" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="86" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="86" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="86" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="86" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="100" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="100" y="34" width="12" height="12" fill="#196127" stroke="#ccc"/>
+  <text x="100" y="10" class="month">Jul</text>
+  <rect x="100" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="100" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="100" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="100" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="100" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="114" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="114" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="114" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="114" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="114" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="114" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="114" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="128" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="128" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="128" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="128" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="128" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="128" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="128" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="142" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="142" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="142" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="142" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="142" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="142" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="142" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="156" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="156" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="156" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="156" y="62" width="12" height="12" fill="#c6e48b" stroke="#ccc"/>
+  <rect x="156" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <text x="156" y="10" class="month">Aug</text>
+  <rect x="156" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="156" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="170" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="170" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="170" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="170" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="170" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="170" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="170" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="184" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="184" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="184" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="184" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="184" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="184" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="184" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="198" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="198" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="198" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="198" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="198" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="198" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="198" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="212" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="212" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="212" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="212" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="212" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="212" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="212" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="226" y="20" width="12" height="12" fill="#7bc96f" stroke="#ccc"/>
+  <text x="226" y="10" class="month">Sep</text>
+  <rect x="226" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="226" y="48" width="12" height="12" fill="#7bc96f" stroke="#ccc"/>
+  <rect x="226" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="226" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="226" y="90" width="12" height="12" fill="#c6e48b" stroke="#ccc"/>
+  <rect x="226" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="240" y="20" width="12" height="12" fill="#c6e48b" stroke="#ccc"/>
+  <rect x="240" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="240" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="240" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="240" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="240" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="240" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="254" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="254" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="254" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="254" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="254" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="254" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="254" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="268" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="268" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="268" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="268" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="268" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="268" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="268" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="282" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="282" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="282" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <text x="282" y="10" class="month">Oct</text>
+  <rect x="282" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="282" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="282" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="282" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="296" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="296" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="296" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="296" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="296" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="296" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="296" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="310" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="310" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="310" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="310" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="310" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="310" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="310" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="324" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="324" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="324" y="48" width="12" height="12" fill="#c6e48b" stroke="#ccc"/>
+  <rect x="324" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="324" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="324" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="324" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="338" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="338" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="338" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="338" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="338" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="338" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <text x="338" y="10" class="month">Nov</text>
+  <rect x="338" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="352" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="352" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="352" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="352" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="352" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="352" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="352" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="366" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="366" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="366" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="366" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="366" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="366" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="366" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="380" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="380" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="380" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="380" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="380" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="380" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="380" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="394" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="394" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="394" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="394" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="394" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="394" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="394" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="408" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <text x="408" y="10" class="month">Dec</text>
+  <rect x="408" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="408" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="408" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="408" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="408" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="408" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="422" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="422" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="422" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="422" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="422" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="422" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="422" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="436" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="436" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="436" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="436" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="436" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="436" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="436" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="450" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="450" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="450" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="450" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="450" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="450" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="450" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="464" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="464" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="464" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="464" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <text x="464" y="10" class="month">Jan</text>
+  <rect x="464" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="464" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="464" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="478" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="478" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="478" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="478" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="478" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="478" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="478" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="492" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="492" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="492" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="492" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="492" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="492" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="492" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="506" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="506" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="506" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="506" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="506" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="506" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="506" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="520" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="520" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="520" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="520" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="520" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="520" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="520" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <text x="520" y="10" class="month">Feb</text>
+  <rect x="534" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="534" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="534" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="534" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="534" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="534" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="534" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="548" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="548" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="548" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="548" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="548" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="548" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="548" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="562" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="562" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="562" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="562" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="562" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="562" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="562" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="576" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="576" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="576" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="576" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="576" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="576" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="576" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <text x="576" y="10" class="month">Mar</text>
+  <rect x="590" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="590" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="590" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="590" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="590" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="590" y="90" width="12" height="12" fill="#7bc96f" stroke="#ccc"/>
+  <rect x="590" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="604" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="604" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="604" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="604" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="604" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="604" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="604" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="618" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="618" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="618" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="618" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="618" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="618" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="618" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="632" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="632" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="632" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="632" y="62" width="12" height="12" fill="#c6e48b" stroke="#ccc"/>
+  <rect x="632" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="632" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="632" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="646" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="646" y="34" width="12" height="12" fill="#7bc96f" stroke="#ccc"/>
+  <rect x="646" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <text x="646" y="10" class="month">Apr</text>
+  <rect x="646" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="646" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="646" y="90" width="12" height="12" fill="#7bc96f" stroke="#ccc"/>
+  <rect x="646" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="660" y="20" width="12" height="12" fill="#7bc96f" stroke="#ccc"/>
+  <rect x="660" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="660" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="660" y="62" width="12" height="12" fill="#7bc96f" stroke="#ccc"/>
+  <rect x="660" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="660" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="660" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="674" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="674" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="674" y="48" width="12" height="12" fill="#7bc96f" stroke="#ccc"/>
+  <rect x="674" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="674" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="674" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="674" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="688" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="688" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="688" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="688" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="688" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="688" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="688" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="702" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="702" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="702" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="702" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="702" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <text x="702" y="10" class="month">May</text>
+  <rect x="702" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="702" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="716" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="716" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="716" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="716" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="716" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="716" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="716" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="730" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="730" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="730" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="730" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="730" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="730" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="730" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="744" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="744" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="744" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="744" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="744" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="744" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="744" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="758" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="758" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="758" y="48" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="758" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="758" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="758" y="90" width="12" height="12" fill="#196127" stroke="#ccc" class="latest-commit"/>
+  <rect x="758" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <rect x="772" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
+  <text x="772" y="10" class="month">Jun</text>
+  <rect x="646" y="90" width="12" height="12" fill="#7bc96f" stroke="#777" class="commit-hole" id="hole-0" style="animation-delay: 0s"/>
+  <rect x="646" y="90" width="12" height="12" fill="#7bc96f" stroke="#ccc" class="stolen-commit" id="commit-0" style="animation-delay: 0s"/>
+  <g class="squirrel" id="animal-0" style="animation-delay: 0s">
+    <text x="651" y="88" font-size="16">🦝</text>
+  </g>
+  <rect x="226" y="48" width="12" height="12" fill="#7bc96f" stroke="#777" class="commit-hole" id="hole-1" style="animation-delay: 2s"/>
+  <rect x="226" y="48" width="12" height="12" fill="#7bc96f" stroke="#ccc" class="stolen-commit" id="commit-1" style="animation-delay: 2s"/>
+  <g class="squirrel" id="animal-1" style="animation-delay: 2s">
+    <text x="231" y="46" font-size="16">🐹</text>
+  </g>
+  <rect x="758" y="90" width="12" height="12" fill="#196127" stroke="#777" class="commit-hole" id="hole-2" style="animation-delay: 4s"/>
+  <rect x="758" y="90" width="12" height="12" fill="#196127" stroke="#ccc" class="stolen-commit" id="commit-2" style="animation-delay: 4s"/>
+  <g class="squirrel" id="animal-2" style="animation-delay: 4s">
+    <text x="763" y="88" font-size="16">🐭</text>
+  </g>
+  <text x="0" y="133" class="label">Latest commit: 2025-05-30</text>
+</svg>
