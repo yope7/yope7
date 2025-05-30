@@ -58,6 +58,8 @@ response = requests.post(
 )
 
 data = response.json()
+#dump
+print(data)
 
 # 日付→コミット数のマップを作成
 commit_days = {}
