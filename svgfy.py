@@ -56,7 +56,7 @@ response = requests.post(
     json={"query": query, "variables": variables},
     headers=headers
 )
-
+print(TOKEN)
 data = response.json()
 #dump
 print(json.dumps(data, indent=2))
