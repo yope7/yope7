@@ -9,7 +9,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 USERNAME = "yope7"
-TOKEN = os.getenv("TOKEN")
+# GitHub Actionsのワークフロー環境変数かローカルの.env変数を使用
+TOKEN = os.getenv("GITHUB_TOKEN") or os.getenv("TOKEN")
 
 # 動物の種類と絵文字を定義
 ANIMALS = [
