@@ -479,26 +479,26 @@
   <rect x="758" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
   <text x="758" y="10" class="month">Jun</text>
   <rect x="758" y="34" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
-  <rect x="758" y="48" width="12" height="12" fill="#7bc96f" stroke="#ccc" class="latest-commit"/>
+  <rect x="758" y="48" width="12" height="12" fill="#239a3b" stroke="#ccc" class="latest-commit"/>
   <rect x="758" y="62" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
   <rect x="758" y="76" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
   <rect x="758" y="90" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
   <rect x="758" y="104" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
   <rect x="772" y="20" width="12" height="12" fill="#ebedf0" stroke="#ccc"/>
-  <rect x="212" y="20" width="12" height="12" fill="#7bc96f" stroke="#777" class="commit-hole" id="hole-0" style="animation-delay: 0s"/>
-  <rect x="212" y="20" width="12" height="12" fill="#7bc96f" stroke="#ccc" class="stolen-commit" id="commit-0" style="animation-delay: 0s"/>
+  <rect x="758" y="48" width="12" height="12" fill="#239a3b" stroke="#777" class="commit-hole" id="hole-0" style="animation-delay: 0s"/>
+  <rect x="758" y="48" width="12" height="12" fill="#239a3b" stroke="#ccc" class="stolen-commit" id="commit-0" style="animation-delay: 0s"/>
   <g class="squirrel" id="animal-0" style="animation-delay: 0s">
-    <text x="217" y="18" font-size="16">🐿️</text>
+    <text x="763" y="46" font-size="16">🐿️</text>
   </g>
-  <rect x="632" y="90" width="12" height="12" fill="#7bc96f" stroke="#777" class="commit-hole" id="hole-1" style="animation-delay: 2s"/>
-  <rect x="632" y="90" width="12" height="12" fill="#7bc96f" stroke="#ccc" class="stolen-commit" id="commit-1" style="animation-delay: 2s"/>
+  <rect x="212" y="20" width="12" height="12" fill="#7bc96f" stroke="#777" class="commit-hole" id="hole-1" style="animation-delay: 2s"/>
+  <rect x="212" y="20" width="12" height="12" fill="#7bc96f" stroke="#ccc" class="stolen-commit" id="commit-1" style="animation-delay: 2s"/>
   <g class="squirrel" id="animal-1" style="animation-delay: 2s">
-    <text x="637" y="88" font-size="16">🐭</text>
+    <text x="217" y="18" font-size="16">🐭</text>
   </g>
-  <rect x="646" y="20" width="12" height="12" fill="#7bc96f" stroke="#777" class="commit-hole" id="hole-2" style="animation-delay: 4s"/>
-  <rect x="646" y="20" width="12" height="12" fill="#7bc96f" stroke="#ccc" class="stolen-commit" id="commit-2" style="animation-delay: 4s"/>
+  <rect x="632" y="90" width="12" height="12" fill="#7bc96f" stroke="#777" class="commit-hole" id="hole-2" style="animation-delay: 4s"/>
+  <rect x="632" y="90" width="12" height="12" fill="#7bc96f" stroke="#ccc" class="stolen-commit" id="commit-2" style="animation-delay: 4s"/>
   <g class="squirrel" id="animal-2" style="animation-delay: 4s">
-    <text x="651" y="18" font-size="16">🦝</text>
+    <text x="637" y="88" font-size="16">🐿️</text>
   </g>
   <text x="0" y="133" class="label">Latest commit: 2025-06-03</text>
 </svg>
